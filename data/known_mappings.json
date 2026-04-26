@@ -1,0 +1,170 @@
+{
+  "30055_GATES1  _500_30060_MIDWAY  _500_BR_1 _1": {
+    "name": "Gates-Midway 500 kV (Path 26)",
+    "tpp_area": "Path 26 Corridor",
+    "utility": "PG&E",
+    "reconductoring": false,
+    "reason": "500 kV, stability-limited"
+  },
+  "30790_PANOCHE _230_30900_GATES   _230_BR_2 _1": {
+    "name": "Panoche-Gates 230 kV",
+    "tpp_area": "PG&E Fresno 230 kV / Path 15 Corridor",
+    "utility": "PG&E",
+    "reconductoring": true,
+    "reason": "230 kV branch in renewable-rich corridor"
+  },
+  "30750_MOSSLD  _230_30797_LASAGUIL_230_BR_1 _1": {
+    "name": "Moss Landing-Las Aguilas 230 kV",
+    "tpp_area": "Path 15 Corridor",
+    "utility": "PG&E",
+    "reconductoring": true,
+    "reason": "230 kV, identified as DLR candidate in PG&E SB1006"
+  },
+  "22208_EL CAJON_69.0_22408_LOSCOCHS_69.0_BR_1 _1": {
+    "name": "El Cajon-Los Coches 69 kV",
+    "tpp_area": "SDG&E 230 kV",
+    "utility": "SDG&E",
+    "reconductoring": true,
+    "reason": "69 kV branch, persistently congested"
+  },
+  "30040_TESLA   _500_30050_LOSBANOS_500_BR_1 _1": {
+    "name": "Tesla-Los Banos 500 kV (Path 15)",
+    "tpp_area": "Path 15 Corridor",
+    "utility": "PG&E",
+    "reconductoring": false,
+    "reason": "500 kV, stability-limited"
+  },
+  "30060_MIDWAY  _500_24156_VINCENT _500_BR_2 _3": {
+    "name": "Midway-Vincent 500 kV (Path 26)",
+    "tpp_area": "Path 26 Corridor",
+    "utility": "PG&E/SCE",
+    "reconductoring": false,
+    "reason": "500 kV, stability-limited"
+  },
+  "25201_LEWIS   _230_24137_SERRANO _230_BR_1 _1": {
+    "name": "Lewis-Serrano 230 kV",
+    "tpp_area": "SCE Northern",
+    "utility": "SCE",
+    "reconductoring": true,
+    "reason": "230 kV branch in SCE service territory"
+  },
+  "33020_MORAGA  _115_35101_SN LNDRO_115_BR_2 _1": {
+    "name": "Moraga-San Leandro 115 kV",
+    "tpp_area": "PG&E Greater Bay Area",
+    "utility": "PG&E",
+    "reconductoring": true,
+    "reason": "115 kV, identified for reconductoring in Oakland South Reinforcement (TPP 2024-25)"
+  },
+  "35618_SN JSE A_115_35620_EL PATIO_115_BR_1 _1": {
+    "name": "San Jose A-El Patio 115 kV",
+    "tpp_area": "PG&E Greater Bay Area",
+    "utility": "PG&E",
+    "reconductoring": true,
+    "reason": "115 kV branch in Bay Area load pocket"
+  },
+  "30765_LOSBANOS_230_30790_PANOCHE _230_BR_2 _1": {
+    "name": "Los Banos-Panoche 230 kV",
+    "tpp_area": "Path 15 Corridor",
+    "utility": "PG&E",
+    "reconductoring": true,
+    "reason": "230 kV in Path 15 corridor, solar congestion"
+  },
+  "34548_KETTLEMN_70.0_34552_GATES   _70.0_BR_1 _1": {
+    "name": "Kettleman-Gates 70 kV",
+    "tpp_area": "PG&E Kern / Fresno",
+    "utility": "PG&E",
+    "reconductoring": true,
+    "reason": "70 kV branch in solar-rich zone, thermally limited"
+  },
+  "34116_LE GRAND_115_34115_ADRA TAP_115_BR_1 _1": {
+    "name": "Le Grand-Adra Tap 115 kV",
+    "tpp_area": "PG&E Fresno",
+    "utility": "PG&E",
+    "reconductoring": true,
+    "reason": "115 kV branch in central valley"
+  },
+  "30765_LOSBANOS_230_30766_PADR FLT_230_BR_1 _1": {
+    "name": "Los Banos-Padre Flat 230 kV",
+    "tpp_area": "Path 15 Corridor",
+    "utility": "PG&E",
+    "reconductoring": true,
+    "reason": "230 kV in Path 15 corridor"
+  },
+  "34214_LOS BANS_70.0_30765_LOSBANOS_230_XF_3": {
+    "name": "Los Banos 70/230 kV Transformer",
+    "tpp_area": "Path 15 Corridor",
+    "utility": "PG&E",
+    "reconductoring": false,
+    "reason": "Transformer, not a transmission line"
+  },
+  "31486_CARIBOU _115_30255_CARBOU M_ 1.0_XF_11": {
+    "name": "Caribou 115/1 kV Transformer (Generator)",
+    "tpp_area": "PG&E Sierra",
+    "utility": "PG&E",
+    "reconductoring": false,
+    "reason": "Transformer/generator step-up"
+  },
+  "32214_RIO OSO _115_32225_BRNSWKT1_115_BR_1 _1": {
+    "name": "Rio Oso-Brunswick T1 115 kV",
+    "tpp_area": "PG&E Sierra / North Valley",
+    "utility": "PG&E",
+    "reconductoring": true,
+    "reason": "115 kV branch"
+  },
+  "34418_KINGSBRG_115_34428_CONTADNA_115_BR_1 _1": {
+    "name": "Kingsburg-Contadina 115 kV",
+    "tpp_area": "PG&E Fresno",
+    "utility": "PG&E",
+    "reconductoring": true,
+    "reason": "115 kV branch in Fresno area"
+  },
+  "34101_CERTANJ2_115_34116_LE GRAND_115_BR_1 _1": {
+    "name": "Certaneja 2-Le Grand 115 kV",
+    "tpp_area": "PG&E Fresno",
+    "utility": "PG&E",
+    "reconductoring": true,
+    "reason": "115 kV branch"
+  },
+  "24602_VICTOR  _115_24607_ROADWAY _115_BR_1 _1": {
+    "name": "Victor-Roadway 115 kV",
+    "tpp_area": "SCE Eastern",
+    "utility": "SCE",
+    "reconductoring": true,
+    "reason": "115 kV branch, solar-driven congestion (80% solar hours)"
+  },
+  "24791_TAP710  _115_24731_INYOKERN_115_BR_2 _1": {
+    "name": "Tap710-Inyokern 115 kV",
+    "tpp_area": "SCE Eastern / Kern",
+    "utility": "SCE",
+    "reconductoring": true,
+    "reason": "115 kV in solar/wind zone"
+  },
+  "39021_SC21ATP _70.0_34888_ARVIN   _70.0_BR_1 _1": {
+    "name": "SC21A Tap-Arvin 70 kV",
+    "tpp_area": "PG&E Kern",
+    "utility": "PG&E",
+    "reconductoring": true,
+    "reason": "70 kV branch, #1 most congested line, thermally limited"
+  },
+  "31336_HPLND JT_60.0_31370_CLVRDLJT_60.0_BR_1 _1": {
+    "name": "Highland Junction-Cloverdale Junction 60 kV",
+    "tpp_area": "PG&E North Coast",
+    "utility": "PG&E",
+    "reconductoring": true,
+    "reason": "60 kV branch, #2 most congested, likely thermally limited"
+  },
+  "24723_CONTROL _115_24865_TAP188  _115_BR_2 _1": {
+    "name": "Control-Tap188 115 kV",
+    "tpp_area": "SCE Eastern",
+    "utility": "SCE",
+    "reconductoring": true,
+    "reason": "115 kV branch, #3 most congested, base case binding"
+  },
+  "24723_CONTROL _115_24866_TAP189  _115_BR_1 _1": {
+    "name": "Control-Tap189 115 kV",
+    "tpp_area": "SCE Eastern",
+    "utility": "SCE",
+    "reconductoring": true,
+    "reason": "115 kV branch, same corridor as Control-Tap188"
+  }
+}

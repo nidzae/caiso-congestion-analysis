@@ -1,0 +1,346 @@
+{
+  "tpp_congestion_areas": {
+    "Path 15 Corridor": {"cost_2034_M": 389.42, "hours_2034": 5468, "cost_2039_M": 521.80, "hours_2039": 7343},
+    "Path 26 Corridor": {"cost_2034_M": 241.10, "hours_2034": 4503, "cost_2039_M": 206.28, "hours_2039": 4197},
+    "East of Pisgah": {"cost_2034_M": 35.61, "hours_2034": 1378, "cost_2039_M": 86.87, "hours_2039": 3334},
+    "SCE Northern": {"cost_2034_M": 19.69, "hours_2034": 1743, "cost_2039_M": 78.62, "hours_2039": 3348},
+    "SCE Metro": {"cost_2034_M": 16.05, "hours_2034": 179, "cost_2039_M": 67.89, "hours_2039": 1328},
+    "SWIP North": {"cost_2034_M": 51.29, "hours_2034": 716, "cost_2039_M": 51.61, "hours_2039": 748},
+    "SCE North of Lugo": {"cost_2034_M": 8.04, "hours_2034": 4492, "cost_2039_M": 32.55, "hours_2039": 6531},
+    "Path 42": {"cost_2034_M": 11.29, "hours_2034": 495, "cost_2039_M": 24.13, "hours_2039": 594},
+    "SDG&E/CFE": {"cost_2034_M": 10.43, "hours_2034": 1577, "cost_2039_M": 18.03, "hours_2039": 2101},
+    "PG&E North Valley 230 kV": {"cost_2034_M": 15.05, "hours_2034": 1863, "cost_2039_M": 16.63, "hours_2039": 1485},
+    "SDG&E 230 kV": {"cost_2034_M": 3.74, "hours_2034": 634, "cost_2039_M": 12.34, "hours_2039": 1293},
+    "PG&E Kern 230 kV": {"cost_2034_M": 6.57, "hours_2034": 997, "cost_2039_M": 11.58, "hours_2039": 1548},
+    "SCE Eastern": {"cost_2034_M": 0.31, "hours_2034": 19, "cost_2039_M": 9.63, "hours_2039": 171},
+    "PG&E Morro Bay 230 kV": {"cost_2034_M": 0.00, "hours_2034": 0, "cost_2039_M": 9.51, "hours_2039": 1169},
+    "PG&E Sierra": {"cost_2034_M": 1.95, "hours_2034": 475, "cost_2039_M": 8.39, "hours_2039": 1053},
+    "PG&E Greater Bay Area": {"cost_2034_M": 1.10, "hours_2034": 186, "cost_2039_M": 5.79, "hours_2039": 459},
+    "PG&E Fresno 115 kV": {"cost_2034_M": 0.08, "hours_2034": 32, "cost_2039_M": 4.55, "hours_2039": 227},
+    "PG&E Fresno 230 kV": {"cost_2034_M": 0.05, "hours_2034": 32, "cost_2039_M": 1.23, "hours_2039": 182}
+  },
+  "interventions": {
+    "39021_SC21ATP _70.0_34888_ARVIN   _70.0_BR_1 _1": {
+      "intervention_proposed": true,
+      "intervention_type": "deferred",
+      "intervention_source": "CAISO TPP 2024-25",
+      "intervention_approved": false,
+      "rejection_reason": "CAISO explicitly deprioritized: 'Congestion on radial transmission lines or some local areas may not be selected as a high-priority study even though the congestion cost or duration are relatively large and if the congestion was only driven by local renewable generators identified in the CPUC default renewable portfolio.' TPP identified 70 kV Kern constraints (Copus-Old River, South Kern Jct-San Emidio) but concluded 'no policy-driven upgrades identified' — SSN (special study needed) only.",
+      "tpp_area": "PG&E Kern 230 kV",
+      "tpp_congestion_cost_M": 11.58,
+      "notes": "#1 most congested line. CAISO is AWARE of 70 kV Kern congestion but explicitly defers action — treats it as potentially transient because congestion may shift if CPUC changes which solar projects get mapped to which substations in the next IRP cycle. 30% of binding hours are Base Case (direct thermal overload), not just contingency. Not in PG&E SB1006 DLR or reconductoring candidates. 2,152 hours of actual market binding over 12 months contradicts 'modeling artifact' framing."
+    },
+    "31336_HPLND JT_60.0_31370_CLVRDLJT_60.0_BR_1 _1": {
+      "intervention_proposed": true,
+      "intervention_type": "reconductoring",
+      "intervention_source": "CAISO TPP 2024-25",
+      "intervention_approved": true,
+      "rejection_reason": null,
+      "tpp_area": "PG&E North Coast",
+      "tpp_congestion_cost_M": null,
+      "notes": "Near Eagle Rock-Fulton-Silverado 115 kV reconductor ($92.9M, approved) and Konocti-Eagle Rock 60 kV reconductor ($32.5M, approved). Also identified as DLR candidate in PG&E SB1006 Table 1 (historical congestion)."
+    },
+    "24723_CONTROL _115_24865_TAP188  _115_BR_2 _1": {
+      "intervention_proposed": false,
+      "intervention_type": "none",
+      "intervention_source": "none",
+      "intervention_approved": null,
+      "rejection_reason": null,
+      "tpp_area": "SCE Eastern",
+      "tpp_congestion_cost_M": 9.63,
+      "notes": "GENUINELY OVERLOOKED. #3 most congested line, 4,071 hours binding, 100% Base Case (direct thermal overload). SCE Eastern area shows only $9.63M in TPP 2039 model, driven by data center load growth at Valley 115 kV bus. SCE's SB1006 reconductoring proposals focused on Pardee-Santa Clara and Santa Clara-Vincent 230 kV in the LA basin — not the eastern desert. Julian Hinds-Mirage 230 kV advanced reconductor approved ($76M) but is a different line in the same general area. This 115 kV line appears to have no proposed intervention from any source."
+    },
+    "22208_EL CAJON_69.0_22408_LOSCOCHS_69.0_BR_1 _1": {
+      "intervention_proposed": false,
+      "intervention_type": "none",
+      "intervention_source": "none",
+      "intervention_approved": null,
+      "rejection_reason": null,
+      "tpp_area": "SDG&E 230 kV",
+      "tpp_congestion_cost_M": 12.34,
+      "notes": "GENUINELY OVERLOOKED. #4 most congested, binding 4,090 hours/year — nearly half of all hours. Appears prominently in DMM monthly reports (DMM Table 5.3 rank #18 by DLAP price impact). SDG&E TPP area shows $12.34M in 230 kV congestion, but this 69 kV sub-transmission congestion is a distinct problem likely driven by local load pockets and rooftop solar backfeed. TPP SDG&E section focuses exclusively on 230 kV and 500 kV upgrades (Sycamore-Scripps, Downtown Reliability Reinforcement $500M, Coronado $108M). The 69 kV sub-transmission layer is structurally deprioritized by the planning process. SDG&E's SB1006 report was not available for this analysis."
+    },
+    "30750_MOSSLD  _230_30797_LASAGUIL_230_BR_1 _1": {
+      "intervention_proposed": true,
+      "intervention_type": "DLR",
+      "intervention_source": "PG&E SB1006",
+      "intervention_approved": null,
+      "rejection_reason": "All Path 15 new-build alternatives rejected in TPP. DLR proposed in PG&E SB1006 but not yet approved by CAISO.",
+      "tpp_area": "Path 15 Corridor",
+      "tpp_congestion_cost_M": 521.80,
+      "notes": "STUDIED BUT DEFERRED. #5 most congested, 81% solar hours. Path 15 corridor ($521M/yr modeled congestion by 2039 — largest single area). CAISO studied 10 alternatives in TPP 2024-25 Table 4.8-1, all involving major new 500 kV construction or HVDC — none approved ('ratepayer benefit insufficient'). CAISO is locked in multi-year analysis of billion-dollar 500 kV alternatives while this 230 kV line keeps binding every day. PG&E SB1006 confirmed as DLR candidate (historical congestion). DLR cost: $50K-$500K per line vs. 500 kV new-build at $1B+."
+    },
+    "30765_LOSBANOS_230_30790_PANOCHE _230_BR_2 _1": {
+      "intervention_proposed": true,
+      "intervention_type": "series_reactor",
+      "intervention_source": "CAISO TPP 2024-25",
+      "intervention_approved": false,
+      "rejection_reason": "Ratepayer benefit insufficient to cover costs. TPP Alternative 10: 10 ohm series reactor on each Panoche-Gates 230 kV studied and rejected.",
+      "tpp_area": "Path 15 Corridor",
+      "tpp_congestion_cost_M": 521.80,
+      "notes": "STUDIED BUT DEFERRED. #6 most congested, 86% solar hours. Part of Path 15 corridor. Series reactor on Panoche-Gates 230 kV studied as TPP Alternative 10 — rejected ('ratepayer benefit insufficient'). CAISO's off-peak deliverability assessment explicitly flagged Gates-Panoche 230 kV with 'reconductor if economic' as potential mitigation — meaning CAISO's own planners have considered reconductoring this exact corridor but haven't yet run the cost-benefit. All 10 new-build 500 kV alternatives also rejected."
+    },
+    "30790_PANOCHE _230_30900_GATES   _230_BR_2 _1": {
+      "intervention_proposed": true,
+      "intervention_type": "DLR",
+      "intervention_source": "PG&E SB1006 + CAISO TPP 2024-25",
+      "intervention_approved": false,
+      "rejection_reason": "TPP series reactor rejected (ratepayer benefit insufficient). DLR identified as candidate in PG&E SB1006 Table 1 but not yet approved.",
+      "tpp_area": "Path 15 Corridor",
+      "tpp_congestion_cost_M": 521.80,
+      "notes": "STUDIED BUT DEFERRED. #7 most congested, 87% solar hours. Same Path 15 corridor. TPP series reactor (Alt 10) specifically for this line — rejected. PG&E SB1006 identifies as DLR candidate for both historical and future congestion scenarios. CAISO off-peak assessment flagged 'reconductor if economic.' CAISO is struggling with the scale of investment needed for Path 15 while incremental GETs/reconductoring solutions on the 230 kV feeder lines remain unapproved."
+    },
+    "34548_KETTLEMN_70.0_34552_GATES   _70.0_BR_1 _1": {
+      "intervention_proposed": true,
+      "intervention_type": "deferred",
+      "intervention_source": "CAISO TPP 2024-25",
+      "intervention_approved": false,
+      "rejection_reason": "Same as SC21A Tap-Arvin: CAISO explicitly deprioritizes 70 kV Kern sub-transmission congestion. TPP states congestion on radial lines 'may not be selected as a high-priority study' when 'driven by local renewable generators identified in the CPUC default renewable portfolio.' Treated as potentially transient modeling artifact.",
+      "tpp_area": "PG&E Kern 230 kV",
+      "tpp_congestion_cost_M": 11.58,
+      "notes": "EXPLICITLY DEFERRED. #8 most congested, 91% solar hours — strongest solar correlation of any top constraint. 100% Base Case binding (direct thermal overload, no contingency). 70 kV in Gates area, same sub-transmission network as #1 SC21A Tap-Arvin. CAISO is aware of 70 kV Kern congestion but explicitly defers: treats it as potential modeling artifact that may shift with IRP portfolio changes. 1,084 hours of actual market binding suggests otherwise."
+    },
+    "34116_LE GRAND_115_34115_ADRA TAP_115_BR_1 _1": {
+      "intervention_proposed": true,
+      "intervention_type": "DLR",
+      "intervention_source": "PG&E SB1006",
+      "intervention_approved": null,
+      "rejection_reason": null,
+      "tpp_area": "PG&E Fresno 115 kV",
+      "tpp_congestion_cost_M": 4.55,
+      "notes": "FLAGGED FOR GETs, NOT RECONDUCTORING. #9 most congested, 71% solar hours. PG&E Fresno 115 kV area — TPP attributes congestion to 'load serving or loop flow between 115 kV and 230 kV system' with only $4.55M modeled cost. PG&E SB1006 identified this exact line as a DLR candidate (Table 1, historical congestion). Flagged for GETs but not for reconductoring. Near approved GWF-Kingsburg 115 kV reconductor ($81.6M, in-service 2029)."
+    },
+    "24723_CONTROL _115_24866_TAP189  _115_BR_1 _1": {
+      "intervention_proposed": false,
+      "intervention_type": "none",
+      "intervention_source": "none",
+      "intervention_approved": null,
+      "rejection_reason": null,
+      "tpp_area": "SCE Eastern",
+      "tpp_congestion_cost_M": 9.63,
+      "notes": "GENUINELY OVERLOOKED. #10 most congested, same Control-Inyokern corridor as #3 (Control-Tap188). 100% Base Case (direct thermal overload). Very high avg shadow price ($249/MWh). SCE's SB1006 focused reconductoring proposals on LA basin 230 kV lines, not eastern desert 115 kV. This corridor has two of the top 10 most congested elements with no proposed intervention."
+    },
+    "34214_LOS BANS_70.0_30765_LOSBANOS_230_XF_3": {
+      "intervention_proposed": false,
+      "intervention_type": "none",
+      "intervention_source": "none",
+      "intervention_approved": null,
+      "rejection_reason": null,
+      "tpp_area": "Path 15 Corridor",
+      "tpp_congestion_cost_M": 521.80,
+      "notes": "Los Banos 70/230 kV transformer. Cannot be reconductored. Part of the Path 15 corridor ($521M/yr by 2039). 80% solar hours. The transformer constraint reflects the broader Path 15 bottleneck at the Los Banos hub."
+    },
+    "30765_LOSBANOS_230_30766_PADR FLT_230_BR_1 _1": {
+      "intervention_proposed": false,
+      "intervention_type": "none",
+      "intervention_source": "none",
+      "intervention_approved": null,
+      "rejection_reason": null,
+      "tpp_area": "Path 15 Corridor",
+      "tpp_congestion_cost_M": 521.80,
+      "notes": "80% solar hours. Part of broader Path 15 congestion. No specific intervention."
+    },
+    "33020_MORAGA  _115_35101_SN LNDRO_115_BR_2 _1": {
+      "intervention_proposed": true,
+      "intervention_type": "reconductoring",
+      "intervention_source": "CAISO TPP 2024-25",
+      "intervention_approved": true,
+      "rejection_reason": null,
+      "tpp_area": "PG&E Greater Bay Area",
+      "tpp_congestion_cost_M": 5.79,
+      "notes": "South Oakland Reinforcement Project ($250M) approved. Reconductor Moraga-San Leandro #1,2,3 to 2,288 Amps minimum. PG&E to evaluate advanced conductors. In-service May 2032."
+    },
+    "34418_KINGSBRG_115_34428_CONTADNA_115_BR_1 _1": {
+      "intervention_proposed": true,
+      "intervention_type": "reconductoring",
+      "intervention_source": "CAISO TPP 2024-25",
+      "intervention_approved": true,
+      "rejection_reason": null,
+      "tpp_area": "PG&E Fresno 115 kV",
+      "tpp_congestion_cost_M": 4.55,
+      "notes": "Near GWF-Kingsburg 115 kV reconductor ($81.6M, approved, in-service 2029). May be directly addressed by this project."
+    },
+    "24602_VICTOR  _115_24607_ROADWAY _115_BR_1 _1": {
+      "intervention_proposed": true,
+      "intervention_type": "reconductoring",
+      "intervention_source": "CAISO TPP 2022-23",
+      "intervention_approved": true,
+      "rejection_reason": null,
+      "tpp_area": "SCE Eastern",
+      "tpp_congestion_cost_M": 9.63,
+      "notes": "Lugo-Victor 230 kV #1-4 reconductor previously approved (in-service 2032). 80% solar hours. 115 kV feeder from Victor substation."
+    },
+    "24791_TAP710  _115_24731_INYOKERN_115_BR_2 _1": {
+      "intervention_proposed": false,
+      "intervention_type": "none",
+      "intervention_source": "none",
+      "intervention_approved": null,
+      "rejection_reason": null,
+      "tpp_area": "SCE Eastern",
+      "tpp_congestion_cost_M": 9.63,
+      "notes": "115 kV in Kern/Inyo County. Julian Hinds-Mirage 230 kV reconductor approved in nearby area but different line."
+    },
+    "35618_SN JSE A_115_35620_EL PATIO_115_BR_1 _1": {
+      "intervention_proposed": true,
+      "intervention_type": "reconductoring",
+      "intervention_source": "CAISO TPP 2024-25",
+      "intervention_approved": true,
+      "rejection_reason": null,
+      "tpp_area": "PG&E Greater Bay Area",
+      "tpp_congestion_cost_M": 5.79,
+      "notes": "South Bay Reinforcement Project ($434M) approved. El Patio-San Jose A 115 kV explicitly listed for reconductoring to 3,000 Amps. In-service May 2032."
+    },
+    "32214_RIO OSO _115_32225_BRNSWKT1_115_BR_1 _1": {
+      "intervention_proposed": false,
+      "intervention_type": "none",
+      "intervention_source": "none",
+      "intervention_approved": null,
+      "rejection_reason": null,
+      "tpp_area": "PG&E Sierra",
+      "tpp_congestion_cost_M": 8.39,
+      "notes": "115 kV in Sierra/North Valley area. No specific intervention proposed."
+    },
+    "31334_CLER LKE_60.0_31338_KONOCTI6_60.0_BR_1 _1": {
+      "intervention_proposed": true,
+      "intervention_type": "reconductoring",
+      "intervention_source": "CAISO TPP 2024-25 + PG&E SB1006",
+      "intervention_approved": true,
+      "rejection_reason": null,
+      "tpp_area": "PG&E North Coast",
+      "tpp_congestion_cost_M": null,
+      "notes": "60 kV near Konocti. Konocti-Eagle Rock 60 kV reconductor approved ($32.5M). Also identified as DLR candidate in PG&E SB1006 Table 1 (historical congestion)."
+    },
+    "34101_CERTANJ2_115_34116_LE GRAND_115_BR_1 _1": {
+      "intervention_proposed": false,
+      "intervention_type": "none",
+      "intervention_source": "none",
+      "intervention_approved": null,
+      "rejection_reason": null,
+      "tpp_area": "PG&E Fresno 115 kV",
+      "tpp_congestion_cost_M": 4.55,
+      "notes": "115 kV in Fresno area. TPP flagged Wilson-Le Grand 115 kV for reconductoring if economic."
+    },
+    "34418_KINGSBRG_115_34405_FRWT TAP_115_BR_1 _1": {
+      "intervention_proposed": true,
+      "intervention_type": "DLR",
+      "intervention_source": "PG&E SB1006",
+      "intervention_approved": null,
+      "rejection_reason": null,
+      "tpp_area": "PG&E Fresno 115 kV",
+      "tpp_congestion_cost_M": 4.55,
+      "notes": "Kingsburg-Fruit Tap 115 kV. Identified as DLR candidate in PG&E SB1006 Table 1 (historical congestion). Near approved GWF-Kingsburg reconductor ($81.6M)."
+    },
+    "33916_CURTISS _115_33917_FBERBORD_115_BR_1 _1": {
+      "intervention_proposed": true,
+      "intervention_type": "DLR",
+      "intervention_source": "PG&E SB1006",
+      "intervention_approved": null,
+      "rejection_reason": null,
+      "tpp_area": "PG&E Fresno 115 kV",
+      "tpp_congestion_cost_M": 4.55,
+      "notes": "Curtiss-Fiberboard 115 kV. Identified as DLR candidate in PG&E SB1006 Table 1 (historical congestion)."
+    },
+    "33936_MELNS JB_115_33951_VLYHMTP1_115_BR_1 _1": {
+      "intervention_proposed": true,
+      "intervention_type": "DLR",
+      "intervention_source": "PG&E SB1006",
+      "intervention_approved": null,
+      "rejection_reason": null,
+      "tpp_area": "PG&E Fresno 115 kV",
+      "tpp_congestion_cost_M": 4.55,
+      "notes": "Melones JB-Valley Home Tap 115 kV. Identified as DLR candidate in PG&E SB1006 Table 1 (historical congestion)."
+    },
+    "34115_ADRA TAP_115_34154_DAIRYLND_115_BR_1 _1": {
+      "intervention_proposed": true,
+      "intervention_type": "DLR",
+      "intervention_source": "PG&E SB1006",
+      "intervention_approved": null,
+      "rejection_reason": null,
+      "tpp_area": "PG&E Fresno 115 kV",
+      "tpp_congestion_cost_M": 4.55,
+      "notes": "Adra Tap-Dairyland 115 kV. Identified as DLR candidate in PG&E SB1006 Table 1 (historical congestion)."
+    },
+    "31220_EGLE RCK_115_31228_HOMSTKTP_115_BR_1 _1": {
+      "intervention_proposed": true,
+      "intervention_type": "DLR",
+      "intervention_source": "PG&E SB1006",
+      "intervention_approved": null,
+      "rejection_reason": null,
+      "tpp_area": "PG&E North Coast",
+      "tpp_congestion_cost_M": null,
+      "notes": "Eagle Rock-Homestake Tap 115 kV. Identified as DLR candidate in PG&E SB1006 Table 1 (historical congestion). Near approved Eagle Rock-Fulton-Silverado reconductor ($92.9M)."
+    }
+  },
+  "pge_sb1006": {
+    "dlr_candidates_historical": [
+      {"line": "30750_MOSSLD _230_30797_LASAGUIL_230_BR_1 _1", "name": "Moss Landing-Las Aguilas 230 kV"},
+      {"line": "34116_LE GRAND_115_34115_ADRA TAP_115_BR_1 _1", "name": "Le Grand-Adra Tap 115 kV"},
+      {"line": "31334_CLER LKE_60.0_31338_KONOCTI6_60.0_BR_1 _1", "name": "Clear Lake-Konocti 60 kV"},
+      {"line": "34418_KINGSBRG_115_34405_FRWT TAP_115_BR_1 _1", "name": "Kingsburg-Fruit Tap 115 kV"},
+      {"line": "34115_ADRA TAP_115_34154_DAIRYLND_115_BR_1 _1", "name": "Adra Tap-Dairyland 115 kV"},
+      {"line": "33916_CURTISS _115_33917_FBERBORD_115_BR_1 _1", "name": "Curtiss-Fiberboard 115 kV"},
+      {"line": "31220_EGLE RCK_115_31228_HOMSTKTP_115_BR_1 _1", "name": "Eagle Rock-Homestake Tap 115 kV"},
+      {"line": "30790_PANOCHE _230_30900_GATES _230_BR_2 _1", "name": "Panoche-Gates 230 kV"},
+      {"line": "31336_HPLND JT_60.0_31370_CLVRDLJT_60.0_BR_1 _1", "name": "Highland Junction-Cloverdale Junction 60 kV"},
+      {"line": "33936_MELNS JB_115_33951_VLYHMTP1_115_BR_1 _1", "name": "Melones JB-Valley Home Tap 115 kV"}
+    ],
+    "dlr_candidates_future": [
+      {"name": "Gates D-Calflat SSS 230 kV #1"},
+      {"name": "Morro Bay-Diablo Canyon 230 kV #1"},
+      {"name": "Burney Fst Jct-Pit 1 230 kV (N-1 Carberry-RM with HR SPS)"},
+      {"name": "P24 PG&E-Sierra"},
+      {"name": "Carberry-Round Mt 230 kV (N-1 Pit-Cottonwood)"},
+      {"name": "E. Shore-San Mateo 230 kV (N-2 Newark-Ravenswood + Tesla-Ravenswood)"},
+      {"name": "Honey Lake-Skedaddle PS 60 kV #1"},
+      {"name": "Panoche-Gates E 230 kV (N-2 Gates-Gregg + Gates-McCall)"},
+      {"name": "Panoche-Gates E 230 kV (N-2 LB-Gates + LB-Midway 500 kV)"}
+    ],
+    "reconductoring_candidates": [
+      {"name": "Cabrillo-Santa Ynez SW Sta 115 kV", "length_mi": 14.58, "contingency": "P6", "cost_est": "$18M-$30M", "conductor": "ACCR Oswego/TW T16"},
+      {"name": "Callender SW Sta-Mesa 115 kV", "length_mi": 13.77, "contingency": "P6", "cost_est": "$23M-$38M", "conductor": "ACCR 155/TW T25"},
+      {"name": "Oceano-Callender SW Sta 115 kV", "length_mi": 4.22, "contingency": "P6", "cost_est": "$17M-$28M", "conductor": "ACCR 155/TW T25"},
+      {"name": "Mendocino-Redbud 115 kV", "length_mi": 34.83, "contingency": "P6", "cost_est": "$13M-$22M", "conductor": "ACCR Linnet/TW T16"},
+      {"name": "Cortina-Mendocino #1 115 kV", "length_mi": 60.95, "contingency": "P6", "cost_est": "$23M-$38M", "conductor": "ACCR Linnet/TW T16"},
+      {"name": "Higgins-Bell 115 kV", "length_mi": 18.76, "contingency": "P6", "cost_est": "$26M-$43M", "conductor": "ACCR 155/TW T25"}
+    ],
+    "dlr_cost_est": "$50,000-$500,000 per line",
+    "dlr_timeline": "1-2 years",
+    "dlr_capacity_benefit": "0-20% average (30% cap)",
+    "apfc_result": "No feasible opportunities identified",
+    "topology_optimization_result": "No feasible opportunities identified (all 10 candidates on radial lines)"
+  },
+  "sce_sb1006": {
+    "dlr_candidates": [
+      {"line": "Cool Water-Kramer 115 kV", "summer_capacity_change": "14.6%", "full_year_change": "18.4%"},
+      {"line": "Lugo-Victor No.1 230 kV", "summer_capacity_change": "26.3%", "full_year_change": "27.3%"},
+      {"line": "Lugo-Victor No.2 230 kV", "summer_capacity_change": "26.3%", "full_year_change": "27.2%"},
+      {"line": "Lugo-Victor No.3 230 kV", "summer_capacity_change": "25.9%", "full_year_change": "26.8%"},
+      {"line": "Lugo-Victor No.4 230 kV", "summer_capacity_change": "25.9%", "full_year_change": "26.8%"},
+      {"line": "Lugo-Pisgah No.1 230 kV", "summer_capacity_change": "27.9%", "full_year_change": "22.6%"},
+      {"line": "Lugo-Pisgah No.2 230 kV", "summer_capacity_change": "27.2%", "full_year_change": "21.9%"},
+      {"line": "Laguna Bell-Mesa No.1 230 kV", "summer_capacity_change": "-1.1%", "full_year_change": "8.3%"},
+      {"line": "Laguna Bell-Mesa No.2 230 kV", "summer_capacity_change": "-1.0%", "full_year_change": "8.5%"},
+      {"line": "Eldorado-Cima-Pisgah No.1 230 kV", "summer_capacity_change": "44.3%", "full_year_change": "27.1%"},
+      {"line": "Eldorado-Cima-Pisgah No.2 230 kV", "summer_capacity_change": "43.9%", "full_year_change": "26.9%"}
+    ],
+    "reconductoring_proposed": [
+      {"line": "Pardee-Santa Clara 230 kV", "length_mi": 40, "solution": "Reconductor with HTLS conductor, increase to 2,180 A emergency"},
+      {"line": "Santa Clara-Vincent 230 kV", "length_mi": 40, "solution": "Reconductor with HTLS conductor, increase to 2,180 A emergency"}
+    ],
+    "total_candidates_screened": 56,
+    "total_proposed": 2
+  },
+  "tpp_approved_reconductoring": [
+    {"project": "Julian Hinds-Mirage 230 kV Advanced Reconductor", "utility": "SCE", "cost_M": 76, "length_mi": 47, "in_service": "April 2030", "notes": "HTLS conductors to 1,525/1,625 A. DOE GRIP grant."},
+    {"project": "Metcalf-Piercy/Swift & Newark-Dixon Landing 115 kV Upgrade", "utility": "PG&E", "cost_M": 135, "in_service": "Q1 2028", "notes": "Re-scoped to advanced conductors at 3,000 A emergency."},
+    {"project": "South Bay Reinforcement (6 lines)", "utility": "PG&E", "cost_M": 434, "in_service": "May 2032", "notes": "Reconductor 5+ lines in San Jose to 3,000 A. Includes El Patio-San Jose A, Whisman-Monta Vista."},
+    {"project": "South Oakland Reinforcement (5 lines)", "utility": "PG&E", "cost_M": 250, "in_service": "May 2032", "notes": "Reconductor Moraga-San Leandro #1,2,3 + Moraga-Oakland J + San Leandro-Oakland J to 2,288 A."},
+    {"project": "Cortina #3 60 kV Reconductoring", "utility": "PG&E", "cost_M": 55.5, "in_service": null, "notes": "~7.5 miles total."},
+    {"project": "Konocti-Eagle Rock 60 kV Reconductoring", "utility": "PG&E", "cost_M": 32.5, "in_service": null, "notes": "Management-approved."},
+    {"project": "Eagle Rock-Fulton-Silverado 115 kV Reconductor", "utility": "PG&E", "cost_M": 92.9, "in_service": "2031", "notes": "~30 miles total. Policy-driven."},
+    {"project": "GWF-Kingsburg 115 kV Reconductor", "utility": "PG&E", "cost_M": 81.6, "in_service": "2029", "notes": "~22 miles, 1,500 A emergency. Policy-driven."},
+    {"project": "Lugo-Victor 230 kV #1-4 Reconductor", "utility": "SCE", "cost_M": null, "in_service": "2032", "notes": "Previously approved in 2022-2023 TPP cycle."}
+  ],
+  "tpp_economic_alternatives_all_rejected": true,
+  "tpp_rejection_reason": "Ratepayer benefit is not sufficient to cover the total cost of the project. All 20 economic alternatives across 3 study areas rejected."
+}

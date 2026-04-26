@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAISO Congestion & Reconductoring Opportunity Analysis</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f172a; color: #e2e8f0; }
+  .bar-container { position: relative; cursor: pointer; transition: all 0.15s; }
+  .bar-container:hover { background: rgba(255,255,255,0.05); }
+  .bar { height: 28px; border-radius: 3px; transition: width 0.3s; min-width: 4px; }
+  .bar-red { background: linear-gradient(90deg, #dc2626, #ef4444); }
+  .bar-yellow { background: linear-gradient(90deg, #d97706, #f59e0b); }
+  .bar-green { background: linear-gradient(90deg, #059669, #10b981); }
+  .bar-gray { background: linear-gradient(90deg, #475569, #64748b); }
+  .bar-unsearched { background: linear-gradient(90deg, #7c3aed, #8b5cf6); }
+  .bar-renewable { opacity: 1; }
+  .bar-load { opacity: 0.65; }
+  .stat-card { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 16px; }
+  .detail-card { background: #1e293b; border: 1px solid #334155; border-radius: 8px; }
+  .filter-btn { padding: 4px 12px; border-radius: 4px; border: 1px solid #475569; background: #1e293b; color: #94a3b8; cursor: pointer; font-size: 13px; }
+  .filter-btn.active { background: #3b82f6; border-color: #3b82f6; color: white; }
+  .filter-btn:hover:not(.active) { border-color: #64748b; color: #e2e8f0; }
+  .toggle-switch { position: relative; width: 40px; height: 22px; background: #475569; border-radius: 11px; cursor: pointer; transition: background 0.2s; }
+  .toggle-switch.active { background: #3b82f6; }
+  .toggle-switch::after { content: ''; position: absolute; width: 18px; height: 18px; background: white; border-radius: 50%; top: 2px; left: 2px; transition: transform 0.2s; }
+  .toggle-switch.active::after { transform: translateX(18px); }
+  .tooltip { position: absolute; z-index: 50; background: #1e293b; border: 1px solid #475569; border-radius: 8px; padding: 8px 12px; pointer-events: none; white-space: nowrap; font-size: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+  .info-icon { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: #334155; color: #94a3b8; font-size: 11px; font-weight: 700; cursor: help; position: relative; font-style: italic; font-family: Georgia, serif; }
+  .info-tooltip { display: none; position: absolute; top: 28px; right: 0; width: 420px; max-height: 70vh; overflow-y: auto; background: #1e293b; border: 1px solid #475569; border-radius: 8px; padding: 12px 14px; font-size: 11px; font-weight: 400; font-style: normal; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #cbd5e1; line-height: 1.5; z-index: 100; box-shadow: 0 8px 24px rgba(0,0,0,0.6); white-space: normal; text-align: left; }
+  .info-icon:hover .info-tooltip { display: block; }
+  .metric-toggle { display: inline-flex; background: #1e293b; border: 1px solid #475569; border-radius: 6px; overflow: hidden; }
+  .metric-toggle button { padding: 4px 14px; font-size: 12px; color: #94a3b8; background: transparent; border: none; cursor: pointer; transition: all 0.15s; }
+  .metric-toggle button.active { background: #3b82f6; color: white; }
+  .metric-toggle button:hover:not(.active) { color: #e2e8f0; }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #1e293b; }
+  ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+</style>
+</head>
+<body class="min-h-screen">
+
+<div id="app" class="max-w-[1400px] mx-auto p-4">
+  <!-- Header -->
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-white mb-1">CAISO Transmission Congestion & Reconductoring Opportunities</h1>
+    <p class="text-sm text-slate-400">12-month analysis of Day-Ahead Market shadow prices (Apr 2025 - Mar 2026) | Data: CAISO OASIS PRC_NOMOGRAM</p>
+  </div>
+
+  <!-- Summary Stats -->
+  <div id="stats" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-6"></div>
+
+  <!-- Filters -->
+  <div id="filters" class="flex flex-wrap gap-4 items-center mb-4 p-3 bg-slate-800/50 rounded-lg"></div>
+
+  <!-- Main content -->
+  <div class="flex gap-4">
+    <!-- Bar chart -->
+    <div class="flex-1 min-w-0">
+      <div class="flex justify-between items-center mb-2">
+        <div class="flex items-center gap-3">
+          <h2 id="chart-title" class="text-sm font-semibold text-slate-300">Constrained Transmission Elements — Ranked by Estimated Congestion Cost ($)</h2>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-slate-400">Rank by:</span>
+            <div class="metric-toggle" id="metric-toggle">
+              <button onclick="setMetric('cost_index')">Shadow Price Index</button>
+              <button class="active" onclick="setMetric('estimated_cost')">Estimated Cost ($)</button>
+            </div>
+            <span class="info-icon" id="est-cost-info">i
+              <div class="info-tooltip">
+                <div style="font-weight:600; color:#e2e8f0; margin-bottom:6px;">Estimated Congestion Cost — Assumptions</div>
+                <div style="margin-bottom:6px;">
+                  <strong>Formula:</strong> Est. Cost = &Sigma;(Shadow Price<sub>h</sub>) &times; Thermal Rating (MW) &times; 70%
+                </div>
+                <div style="margin-bottom:6px;">
+                  When a constraint is binding, the flow on the line is at its operating limit — but operating limits are typically <strong>60-80% of the thermal rating</strong> due to N-1 contingency margins, stability limits, and voltage constraints. We apply a <strong>70% derating factor</strong> to the thermal rating as a midpoint estimate of actual constrained flow.
+                </div>
+                <div style="margin-bottom:4px; font-weight:600; color:#e2e8f0;">Thermal ratings by voltage class:</div>
+                <table style="width:100%; border-collapse:collapse; margin-bottom:8px;">
+                  <tr style="border-bottom:1px solid #475569;"><td style="padding:2px 4px; color:#94a3b8;">60-70 kV</td><td style="padding:2px 4px;">75-100 MW thermal</td><td style="padding:2px 4px; color:#fbbf24;">→ 53-70 MW est. flow</td></tr>
+                  <tr style="border-bottom:1px solid #475569;"><td style="padding:2px 4px; color:#94a3b8;">115 kV</td><td style="padding:2px 4px;">250 MW thermal</td><td style="padding:2px 4px; color:#fbbf24;">→ 175 MW est. flow</td></tr>
+                  <tr style="border-bottom:1px solid #475569;"><td style="padding:2px 4px; color:#94a3b8;">230 kV</td><td style="padding:2px 4px;">700 MW thermal</td><td style="padding:2px 4px; color:#fbbf24;">→ 490 MW est. flow</td></tr>
+                  <tr><td style="padding:2px 4px; color:#94a3b8;">500 kV</td><td style="padding:2px 4px;">2,000 MW thermal</td><td style="padding:2px 4px; color:#fbbf24;">→ 1,400 MW est. flow</td></tr>
+                </table>
+                <div style="margin-bottom:4px; font-weight:600; color:#e2e8f0;">Validation:</div>
+                <div style="margin-bottom:6px;">
+                  Our Path 15 corridor estimate ($336M) falls between the TPP's 2034 modeled cost ($389M) and a pro-rated 2034 figure, providing reasonable confidence in these assumptions.
+                </div>
+                <div style="margin-bottom:4px; font-weight:600; color:#e2e8f0;">Caveats:</div>
+                <ul style="margin:0; padding-left:16px;">
+                  <li>Actual line ratings vary by conductor type, ambient temperature, wind, and span length.</li>
+                  <li>The 70% factor is a system-wide average; individual lines may be higher or lower.</li>
+                  <li>Transformers use the higher-voltage-side rating as a proxy, which may overestimate.</li>
+                  <li>Lines with unknown voltage (shown as "?") are excluded from this view.</li>
+                  <li>For authoritative dollar figures, use CAISO TPP Table 4.6-1 (GridView production cost model).</li>
+                </ul>
+              </div>
+            </span>
+          </div>
+          <span id="showing-count" class="text-xs text-slate-500"></span>
+        </div>
+      </div>
+      <div id="chart" class="space-y-1 max-h-[75vh] overflow-y-auto pr-2"></div>
+    </div>
+
+    <!-- Detail panel -->
+    <div id="detail-panel" class="w-[380px] shrink-0 sticky top-4 self-start">
+      <div class="detail-card p-4">
+        <p class="text-sm text-slate-500 italic">Click a bar to see details</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="mt-4 flex flex-wrap gap-6 text-xs text-slate-400">
+    <div class="flex items-center gap-2"><div class="w-4 h-3 rounded bar-red"></div> Genuinely overlooked — no intervention</div>
+    <div class="flex items-center gap-2"><div class="w-4 h-3 rounded bar-yellow"></div> Studied/acknowledged but deferred or rejected</div>
+    <div class="flex items-center gap-2"><div class="w-4 h-3 rounded bar-green"></div> Intervention approved</div>
+    <div class="flex items-center gap-2"><div class="w-4 h-3 rounded bar-unsearched"></div> Not yet researched</div>
+    <div class="flex items-center gap-2"><div class="w-4 h-3 rounded bar-gray"></div> Not applicable (500 kV / stability / transformer)</div>
+    <div class="flex items-center gap-2"><span class="opacity-100">Full opacity</span> = renewable-driven | <span class="opacity-60">Reduced</span> = load/other</div>
+  </div>
+</div>
+
+<script>
+// Data will be loaded from external file
+let ALL_DATA = [];
+let filteredData = [];
+let selectedId = null;
+
+// State
+let filters = {
+  voltage: 'all',
+  utility: 'all',
+  renewableOnly: false,
+  reconOnly: false,
+  interventionStatus: 'all'
+};
+let rankMetric = 'estimated_cost'; // 'cost_index' or 'estimated_cost'
+
+function loadData() {
+  // Try embedded data first (for standalone publishing), then fall back to fetch
+  if (typeof EMBEDDED_DATA !== 'undefined') {
+    ALL_DATA = EMBEDDED_DATA;
+    applyFilters();
+    return;
+  }
+  fetch('data.json')
+    .then(r => r.json())
+    .then(data => {
+      ALL_DATA = data;
+      applyFilters();
+    })
+    .catch(() => {
+      fetch('../data/visualization_data.json')
+        .then(r => r.json())
+        .then(data => {
+          ALL_DATA = data;
+          applyFilters();
+        });
+    });
+}
+
+function applyFilters() {
+  filteredData = ALL_DATA.filter(d => {
+    if (filters.voltage !== 'all') {
+      const v = d.voltage_kv;
+      if (filters.voltage === '69' && !(v >= 60 && v <= 70)) return false;
+      if (filters.voltage === '115' && v !== 115) return false;
+      if (filters.voltage === '230' && v !== 230) return false;
+      if (filters.voltage === '500' && v !== 500) return false;
+    }
+    if (filters.utility !== 'all' && d.utility !== filters.utility) return false;
+    if (filters.renewableOnly && !d.renewable_driven) return false;
+    if (filters.reconOnly && d.reconductoring_applicable !== true) return false;
+    if (filters.interventionStatus === 'none' && (d.intervention_proposed !== false)) return false;
+    if (filters.interventionStatus === 'proposed' && (!d.intervention_proposed || d.intervention_proposed === 'not_searched' || d.intervention_proposed === false)) return false;
+    if (filters.interventionStatus === 'approved' && d.intervention_approved !== true) return false;
+    if (filters.interventionStatus === 'not_searched' && d.intervention_proposed !== 'not_searched') return false;
+    return true;
+  });
+
+  // Sort by selected metric
+  if (rankMetric === 'estimated_cost') {
+    filteredData.sort((a, b) => {
+      const av = a.estimated_cost || 0;
+      const bv = b.estimated_cost || 0;
+      return bv - av;
+    });
+  } else {
+    filteredData.sort((a, b) => b.cost_index - a.cost_index);
+  }
+
+  renderStats();
+  renderChart();
+  document.getElementById('showing-count').textContent = `Showing ${Math.min(filteredData.length, 50)} of ${filteredData.length} constraints`;
+}
+
+function setMetric(metric) {
+  rankMetric = metric;
+  // Update toggle buttons
+  document.querySelectorAll('#metric-toggle button').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.includes(metric === 'cost_index' ? 'Shadow' : 'Estimated'));
+  });
+  // Show/hide info icon
+  document.getElementById('est-cost-info').style.display = metric === 'estimated_cost' ? 'inline-flex' : 'none';
+  // Update chart title
+  document.getElementById('chart-title').textContent = metric === 'estimated_cost'
+    ? 'Constrained Transmission Elements — Ranked by Estimated Congestion Cost ($)'
+    : 'Constrained Transmission Elements — Ranked by Total Congestion Cost Index';
+  applyFilters();
+}
+
+function renderStats() {
+  const total = filteredData.length;
+  const reconApplicable = filteredData.filter(d => d.reconductoring_applicable === true).length;
+  const researched = filteredData.filter(d => d.intervention_proposed !== 'not_searched').length;
+  const reconProposed = filteredData.filter(d => d.intervention_proposed && d.intervention_proposed !== false && d.intervention_proposed !== 'not_searched' && d.reconductoring_applicable === true).length;
+  const reconApproved = filteredData.filter(d => d.intervention_approved === true && d.reconductoring_applicable === true).length;
+  const confirmedNoIntervention = filteredData.filter(d => d.intervention_proposed === false && d.reconductoring_applicable === true).length;
+  const notSearched = filteredData.filter(d => d.intervention_proposed === 'not_searched' && d.reconductoring_applicable === true).length;
+  const renewable = filteredData.filter(d => d.renewable_driven === true).length;
+
+  document.getElementById('stats').innerHTML = `
+    <div class="stat-card">
+      <div class="text-2xl font-bold text-white">${total}</div>
+      <div class="text-xs text-slate-400">Binding Constraints</div>
+      <div class="text-xs text-slate-500 mt-1">${researched} researched</div>
+    </div>
+    <div class="stat-card">
+      <div class="text-2xl font-bold text-blue-400">${reconApplicable}</div>
+      <div class="text-xs text-slate-400">Reconductoring Could Help</div>
+    </div>
+    <div class="stat-card">
+      <div class="text-2xl font-bold text-amber-400">${reconProposed}</div>
+      <div class="text-xs text-slate-400">Intervention Proposed</div>
+    </div>
+    <div class="stat-card">
+      <div class="text-2xl font-bold text-emerald-400">${reconApproved}</div>
+      <div class="text-xs text-slate-400">Intervention Approved</div>
+    </div>
+    <div class="stat-card">
+      <div class="text-2xl font-bold text-red-400">${confirmedNoIntervention}</div>
+      <div class="text-xs text-slate-400">Confirmed: No Intervention</div>
+    </div>
+    <div class="stat-card">
+      <div class="text-2xl font-bold text-purple-400">${notSearched}</div>
+      <div class="text-xs text-slate-400">Not Yet Researched</div>
+    </div>
+  `;
+}
+
+function renderFilters() {
+  const container = document.getElementById('filters');
+  container.innerHTML = `
+    <div class="flex items-center gap-2">
+      <span class="text-xs text-slate-400 font-medium">Voltage:</span>
+      ${['all','69','115','230','500'].map(v =>
+        `<button class="filter-btn ${filters.voltage === v ? 'active' : ''}" onclick="setFilter('voltage','${v}')">${v === 'all' ? 'All' : v + ' kV'}</button>`
+      ).join('')}
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="text-xs text-slate-400 font-medium">Utility:</span>
+      ${['all','PG&E','SCE','SDG&E'].map(u =>
+        `<button class="filter-btn ${filters.utility === u ? 'active' : ''}" onclick="setFilter('utility','${u}')">${u === 'all' ? 'All' : u}</button>`
+      ).join('')}
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="text-xs text-slate-400 font-medium">Intervention:</span>
+      ${['all','none','proposed','approved','not_searched'].map(s =>
+        `<button class="filter-btn ${filters.interventionStatus === s ? 'active' : ''}" onclick="setFilter('interventionStatus','${s}')">${s === 'all' ? 'All' : s === 'none' ? 'None' : s === 'not_searched' ? 'Not Searched' : s.charAt(0).toUpperCase()+s.slice(1)}</button>`
+      ).join('')}
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="text-xs text-slate-400">Renewable only</span>
+      <div class="toggle-switch ${filters.renewableOnly ? 'active' : ''}" onclick="toggleFilter('renewableOnly')"></div>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="text-xs text-slate-400">Recon. applicable</span>
+      <div class="toggle-switch ${filters.reconOnly ? 'active' : ''}" onclick="toggleFilter('reconOnly')"></div>
+    </div>
+  `;
+}
+
+function setFilter(key, value) {
+  filters[key] = value;
+  renderFilters();
+  applyFilters();
+}
+
+function toggleFilter(key) {
+  filters[key] = !filters[key];
+  renderFilters();
+  applyFilters();
+}
+
+function getBarClass(d) {
+  if (d.reconductoring_applicable !== true) return 'bar-gray';
+  if (d.intervention_proposed === 'not_searched') return 'bar-unsearched';
+  if (d.intervention_approved === true) return 'bar-green';
+  if (d.intervention_proposed && d.intervention_proposed !== false) return 'bar-yellow';
+  return 'bar-red';
+}
+
+function renderChart() {
+  const container = document.getElementById('chart');
+  const top50 = filteredData.slice(0, 50);
+  const useEstCost = rankMetric === 'estimated_cost';
+
+  const getValue = (d) => useEstCost ? (d.estimated_cost || 0) : d.cost_index;
+  const maxVal = top50.length > 0 ? getValue(top50[0]) : 1;
+
+  const formatValue = (d) => {
+    if (useEstCost) {
+      const v = d.estimated_cost_M;
+      if (v === null || v === undefined) return '? kV';
+      return v >= 1 ? `$${v.toFixed(1)}M` : `$${(v*1000).toFixed(0)}K`;
+    }
+    return `${(d.cost_index/1000).toFixed(0)}K`;
+  };
+
+  container.innerHTML = top50.map((d, i) => {
+    const val = getValue(d);
+    const pct = maxVal > 0 ? (val / maxVal * 100).toFixed(1) : 0;
+    const barClass = getBarClass(d);
+    const opacityClass = d.renewable_driven ? 'bar-renewable' : 'bar-load';
+    const isSelected = d.id === selectedId;
+    const borderStyle = isSelected ? 'border-left: 3px solid #3b82f6;' : 'border-left: 3px solid transparent;';
+
+    return `
+      <div class="bar-container flex items-center gap-2 py-0.5 px-1" style="${borderStyle}" onclick="selectItem('${d.id.replace(/'/g, "\\'")}')">
+        <div class="w-6 text-right text-xs text-slate-500 shrink-0">${i+1}</div>
+        <div class="w-[200px] shrink-0 text-xs text-slate-300 truncate" title="${d.name}">${d.name}</div>
+        <div class="flex-1 min-w-0">
+          <div class="bar ${barClass} ${opacityClass}" style="width: ${pct}%"></div>
+        </div>
+        <div class="w-[80px] text-right text-xs text-slate-400 shrink-0">${formatValue(d)}</div>
+        <div class="w-[50px] text-right text-xs text-slate-500 shrink-0">${d.hours_binding}h</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function selectItem(id) {
+  selectedId = id;
+  const d = ALL_DATA.find(x => x.id === id);
+  if (!d) return;
+  renderChart();
+  renderDetail(d);
+}
+
+function renderDetail(d) {
+  const panel = document.getElementById('detail-panel');
+  const statusColor = d.intervention_proposed === 'not_searched' ? 'text-purple-400' :
+                       d.intervention_approved === true ? 'text-emerald-400' :
+                       d.intervention_type === 'deferred' ? 'text-amber-400' :
+                       (d.intervention_proposed && d.intervention_proposed !== false) ? 'text-amber-400' :
+                       d.reconductoring_applicable !== true ? 'text-slate-500' : 'text-red-400';
+  const statusText = d.intervention_proposed === 'not_searched' ? 'Not Yet Researched' :
+                     d.intervention_approved === true ? 'Approved' :
+                     d.intervention_type === 'deferred' ? 'Acknowledged, Explicitly Deferred' :
+                     (d.intervention_proposed && d.intervention_proposed !== false && d.intervention_approved === false) ? 'Studied, Not Approved' :
+                     (d.intervention_proposed && d.intervention_proposed !== false) ? 'Proposed, Pending' :
+                     d.reconductoring_applicable !== true ? 'N/A' : 'No Intervention';
+
+  panel.innerHTML = `
+    <div class="detail-card p-4 space-y-3">
+      <div>
+        <h3 class="text-base font-bold text-white">${d.name}</h3>
+        <div class="text-xs text-slate-400 mt-1">${d.id}</div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2 text-xs">
+        <div><span class="text-slate-500">Voltage:</span> <span class="text-white">${d.voltage_kv ? d.voltage_kv + ' kV' : 'Unknown'}</span></div>
+        <div><span class="text-slate-500">Utility:</span> <span class="text-white">${d.utility}</span></div>
+        <div><span class="text-slate-500">Area:</span> <span class="text-white">${d.congestion_area || 'Unmapped'}</span></div>
+        <div><span class="text-slate-500">Type:</span> <span class="text-white">${d.element_type}</span></div>
+      </div>
+
+      <div class="border-t border-slate-700 pt-2">
+        <div class="text-xs font-semibold text-slate-400 mb-1">Congestion Metrics (12 months)</div>
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div><span class="text-slate-500">Cost Index:</span> <span class="text-white font-mono">${d.cost_index.toLocaleString()}</span></div>
+          <div><span class="text-slate-500">Hours Binding:</span> <span class="text-white font-mono">${d.hours_binding.toLocaleString()}</span></div>
+          <div><span class="text-slate-500">Avg Shadow Price:</span> <span class="text-white font-mono">$${d.avg_shadow_price.toFixed(1)}/MWh</span></div>
+          <div><span class="text-slate-500">Max Shadow Price:</span> <span class="text-white font-mono">$${d.max_shadow_price.toFixed(1)}/MWh</span></div>
+          <div><span class="text-slate-500">Days Binding:</span> <span class="text-white font-mono">${d.days_binding}</span></div>
+          <div><span class="text-slate-500">Months Active:</span> <span class="text-white font-mono">${d.months_active}/12</span></div>
+        </div>
+        ${d.estimated_cost_M != null ? `
+        <div class="mt-2 p-2 rounded" style="background: #0f172a;">
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div><span class="text-slate-500">Thermal Rating:</span> <span class="text-white font-mono">${d.estimated_thermal_rating_mw} MW</span></div>
+            <div><span class="text-slate-500">Est. Binding Flow:</span> <span class="text-white font-mono">${d.estimated_flow_mw} MW</span> <span class="text-slate-500">(70%)</span></div>
+          </div>
+          <div class="mt-1 text-xs">
+            <span class="text-slate-500">Est. Congestion Cost:</span> <span class="text-amber-300 font-mono font-semibold">$${d.estimated_cost_M >= 1 ? d.estimated_cost_M.toFixed(1)+'M' : (d.estimated_cost_M*1000).toFixed(0)+'K'}</span>
+            <span class="text-slate-600 ml-1">= ${d.cost_index.toLocaleString()} &times; ${d.estimated_flow_mw} MW</span>
+          </div>
+        </div>
+        ` : `
+        <div class="mt-2 text-xs text-slate-500 italic">Estimated cost unavailable (unknown voltage)</div>
+        `}
+      </div>
+
+      <div class="border-t border-slate-700 pt-2">
+        <div class="text-xs font-semibold text-slate-400 mb-1">Constraint Characterization</div>
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div><span class="text-slate-500">Type:</span> <span class="text-white">${d.constraint_type}</span></div>
+          <div><span class="text-slate-500">Primary Cause:</span> <span class="text-white">${d.primary_cause}</span></div>
+          <div><span class="text-slate-500">Renewable-Driven:</span> <span class="${d.renewable_driven ? 'text-yellow-300' : 'text-slate-400'}">${d.renewable_driven ? 'Yes' : 'No'}</span></div>
+          <div><span class="text-slate-500">Renewable Type:</span> <span class="text-white">${d.renewable_type}</span></div>
+          <div><span class="text-slate-500">Solar Hour %:</span> <span class="text-white">${(d.solar_hour_fraction * 100).toFixed(1)}%</span></div>
+        </div>
+      </div>
+
+      <div class="border-t border-slate-700 pt-2">
+        <div class="text-xs font-semibold text-slate-400 mb-1">Reconductoring Assessment</div>
+        <div class="text-xs">
+          <div class="mb-1"><span class="text-slate-500">Applicable:</span> <span class="${d.reconductoring_applicable === true ? 'text-emerald-400' : d.reconductoring_applicable === false ? 'text-red-400' : 'text-slate-400'}">${d.reconductoring_applicable === true ? 'Yes' : d.reconductoring_applicable === false ? 'No' : 'Uncertain'}</span></div>
+          <div class="text-slate-400 italic">${d.reconductoring_reason}</div>
+        </div>
+      </div>
+
+      <div class="border-t border-slate-700 pt-2">
+        <div class="text-xs font-semibold text-slate-400 mb-1">Intervention Status</div>
+        <div class="text-xs space-y-1">
+          <div><span class="text-slate-500">Status:</span> <span class="${statusColor} font-semibold">${statusText}</span></div>
+          ${d.intervention_proposed ? `<div><span class="text-slate-500">Type:</span> <span class="text-white">${d.intervention_type}</span></div>` : ''}
+          ${d.intervention_proposed ? `<div><span class="text-slate-500">Source:</span> <span class="text-white">${d.intervention_source}</span></div>` : ''}
+          ${d.rejection_reason ? `<div><span class="text-slate-500">Rejection:</span> <span class="text-red-300">${d.rejection_reason}</span></div>` : ''}
+          ${d.tpp_congestion_cost_M ? `<div><span class="text-slate-500">TPP Area Cost (2039):</span> <span class="text-white">$${d.tpp_congestion_cost_M}M</span></div>` : ''}
+        </div>
+      </div>
+
+      ${d.notes ? `
+      <div class="border-t border-slate-700 pt-2">
+        <div class="text-xs font-semibold text-slate-400 mb-1">Analysis</div>
+        <div class="text-xs text-slate-300 leading-relaxed">${d.notes}</div>
+      </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+// Initialize
+renderFilters();
+loadData();
+</script>
+</body>
+</html>
